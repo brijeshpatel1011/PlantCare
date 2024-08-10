@@ -1,5 +1,5 @@
 import Navbar from "../Navbar/Navbar";
-import about from "../../assests/contact.webp";
+import contact from "../../assests/cont.jpg";
 import "./HeroStyles.css";
 import Footer from "./Footer";
 
@@ -43,7 +43,8 @@ const Contact = () => {
     <>
       <Navbar />
       <div className="hero-mid">
-        <img src={about} alt="hero" />
+        <img src={contact} alt="hero" />
+
         <div className="hero-text">
           <h1>Contact</h1>
         </div>

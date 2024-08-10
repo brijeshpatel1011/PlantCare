@@ -5,6 +5,7 @@ import crop from "../../assests/cropdetect.jpg"
 import weather from "../../assests/weather.jpg"
 
 const Home = () => {
+
     return(
         <>
         <div className="hero">
@@ -15,8 +16,9 @@ const Home = () => {
             </div>
         </div>
 
+
         <div class="text-4xl font-extrabold dark:text-black pt-10 pb-10">
-            <h2>Our Services</h2>
+            <h2>Our Features</h2>
         </div>
       <div class="w-full  gap-8 flex-wrap flex justify-center items-center pb-16">
         <div class="w-80 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
@@ -33,12 +35,6 @@ const Home = () => {
             </p>
           </div>
 
-          <div class="m-2">
-            <button class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
-              Try it
-              <i class="fa-solid fa-arrow-right pl-2"></i>
-            </button>{" "}
-          </div>
         </div>
 
         <div class="w-80 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
@@ -55,12 +51,6 @@ const Home = () => {
             </p>
           </div>
 
-          <div class="m-2">
-            <button class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
-              Try it
-              <i class="fa-solid fa-arrow-right pl-2"></i>
-            </button>{" "}
-          </div>
         </div>
 
         <div class="w-80 p-2 bg-white rounded-xl transform transition-all hover:-translate-y-2 duration-300 shadow-lg hover:shadow-2xl">
@@ -75,12 +65,7 @@ const Home = () => {
             A real-time weather forecasting system that provides you with accurate and localized weather updates.
             </p>
           </div>
-          <div class="m-2">
-            <button class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
-              Try it
-              <i class="fa-solid fa-arrow-right pl-2"></i>
-            </button>
-          </div>
+          
         </div>
       </div>
         </>

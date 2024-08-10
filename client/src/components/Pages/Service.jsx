@@ -1,5 +1,5 @@
 import Navbar from "../Navbar/Navbar";
-import service from "../../assests/service.jpg";
+import service from "../../assests/Servicemain.jpg";
 import Footer from "./Footer";
 import leaf from "../../assests/leafdetect.jpg"
 import crop from "../../assests/cropdetect.jpg"
