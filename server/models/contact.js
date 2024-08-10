@@ -1,6 +1,4 @@
 const mongoose = require("mongoose");
-const Joi = require("joi");
-
 
 
 const contactSchema = new mongoose.Schema({
@@ -10,6 +8,5 @@ const contactSchema = new mongoose.Schema({
 	message: { type: String, required: true },
 });
 
-const Contact = mongoose.model("contact", contactSchema);
+module.exports = mongoose.model("contact", contactSchema);
 
-module.exports = {Contact };

@@ -26,8 +26,15 @@ const Contact = () => {
     try {
       const url = "http://localhost:8080/api/contact";
       const { data: res } = await axios.post(url, data);
-      // navigate("/login");
+      alert("Message sent successfully");
       console.log(res.message);
+      setData({
+        fullName:"",
+        email:"",
+        subject:"",
+        message:"",
+      });
+
     } catch (error) {
       if (
         error.response &&
@@ -66,7 +73,8 @@ const Contact = () => {
                id="fullName"
                value={data.fullName}
                onChange={handleChange}
-               placeholder="Enter your subject"
+               placeholder="Enter your fullname"
+               required
                class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -84,6 +92,7 @@ const Contact = () => {
                 value={data.email}
                 onChange={handleChange}
                 placeholder="example@gmail.com"
+                required
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -101,6 +110,7 @@ const Contact = () => {
                 value={data.subject}
                 onChange={handleChange}
                 placeholder="Enter your subject"
+                required
                 class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               />
             </div>
@@ -118,6 +128,7 @@ const Contact = () => {
                 onChange={handleChange}
                 value={data.message}
                 placeholder="Type your message"
+                required
                 class="w-full resize-none rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
               ></textarea>
             </div>

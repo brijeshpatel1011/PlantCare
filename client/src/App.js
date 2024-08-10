@@ -16,9 +16,15 @@ function App() {
 			<Route path="/login" exact element={<Login />} />
 			<Route path="/" element={<Navigate replace to="/login" />} />
 
-			<Route path="/about" exact element={<About />} />
-			<Route path="/service" exact element={<Service />} />
-			<Route path="/contact" exact element={<Contact />} />
+
+			{user && <Route path="/about" exact element={<About />} /> }
+			<Route path="/about" element={<Navigate replace to="/login" /> } />
+
+			{user && <Route path="/service" exact element={<Service />} /> }
+			<Route path="/service" element={<Navigate replace to="/login" /> } />
+
+			{user && <Route path="/contact" exact element={<Contact />} />}
+			<Route path="/contact" element={<Navigate replace to="/login" /> } />
 		</Routes>
 	);
 }
