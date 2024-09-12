@@ -14,7 +14,7 @@ function Supply() {
       <img
         src={submit}
         alt="Plant Disease Detection"
-        className="w-full h-[160vh]"
+        className="w-full h-[200vh]"
       />
 
       <div className="absolute top-0 container text-white text-3xl font-bold mx-auto p-4 mt-5">
@@ -24,13 +24,33 @@ function Supply() {
       <div className="absolute top-0 pt-[120px] left-0 w-full h-full container mx-auto flex flex-col items-center">
         <div className="w-[80%] bg-white p-4 rounded-lg shadow-lg border border-green-500 mb-4">
           <h5 className="text-lg font-semibold mb-2">Disease Description:</h5>
-          {description && <p>{description}</p>}
+          <div className="text-left">
+          {description && (
+            <ul className="list-disc pl-5">
+              {description.split('.').map((sentence, index) => (
+                sentence.trim() && (
+                  <li key={index}>{sentence}.</li>
+                )
+              ))}
+            </ul>
+          )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-[80%]">
           <div className="bg-white p-4 rounded-lg shadow-lg border border-green-500">
             <h5 className="text-lg font-semibold mb-2">Possible Steps:</h5>
-            {steps && <p>{steps}</p>}
+            <div className="text-left">
+            {steps && (
+              <ul className="list-disc pl-5">
+                {steps.split('.').map((sentence, index) => (
+                  sentence.trim() && (
+                    <li key={index}>{sentence}.</li>
+                  )
+                ))}
+              </ul>
+            )}
+            </div>
           </div>
 
           <div className="bg-white p-4 rounded-lg shadow-lg border border-green-500 flex flex-col items-center">
@@ -40,7 +60,7 @@ function Supply() {
                 <img
                   src={supplement_image}
                   alt="Supplement"
-                  className="object-contain h-76 w-96 object-cover"
+                  className="object-contain h-[400px] w-96"
                 />
               </div>
             )}
