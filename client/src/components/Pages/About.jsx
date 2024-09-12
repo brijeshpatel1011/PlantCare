@@ -648,10 +648,6 @@ const About = () => {
         </div>
       </section>
 
-
-
-
-
         <Footer/>
         </>
     )

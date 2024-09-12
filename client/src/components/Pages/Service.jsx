@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import leaf from "../../assests/leafdetect.jpg"
 import crop from "../../assests/cropdetect.jpg"
 import weather from "../../assests/weather.jpg"
+import { Link } from "react-router-dom";
 
 const Service = () => {
   return (
@@ -35,10 +36,10 @@ const Service = () => {
           </div>
 
           <div class="m-2">
-            <button class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
+            <Link to="/UploadImage"  class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
               Try it
               <i class="fa-solid fa-arrow-right pl-2"></i>
-            </button>{" "}
+            </Link>{" "}
           </div>
         </div>
 
@@ -77,10 +78,10 @@ const Service = () => {
             </p>
           </div>
           <div class="m-2">
-            <button class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
+            <Link to="/WeatherApp" class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
               Try it
               <i class="fa-solid fa-arrow-right pl-2"></i>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
