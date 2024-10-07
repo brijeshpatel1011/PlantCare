@@ -9,6 +9,7 @@ import UploadImage from "./components/Pages/UploadImage"
 import WeatherApp from "./components/Pages/WeatherApp";
 import Supply from "./components/Pages/Supply";
 import Subscription from "./components/Subscription";
+import CropRem from "./components/Pages/CropRem"
 
 function App() {
 	const user = localStorage.getItem("token");
@@ -41,6 +42,9 @@ function App() {
 
 			{user && <Route path="/Subscription" exact element={<Subscription />} />}
 			<Route path="/Subscription" element={<Navigate replace to="/login" /> } />
+
+			{user && <Route path="/CropRem" exact element={<CropRem />} />}
+			<Route path="/CropRem" element={<Navigate replace to="/login" /> } />
 
 		</Routes>
 	);

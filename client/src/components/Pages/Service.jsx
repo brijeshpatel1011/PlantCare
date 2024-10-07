@@ -58,10 +58,10 @@ const Service = () => {
           </div>
 
           <div class="m-2">
-            <button class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
+            <Link to='/CropRem' class="text-white bg-green-600 px-3 py-1 rounded-md hover:bg-green-500">
               Try it
               <i class="fa-solid fa-arrow-right pl-2"></i>
-            </button>{" "}
+            </Link>{" "}
           </div>
         </div>
 
