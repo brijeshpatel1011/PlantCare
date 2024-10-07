@@ -20,5 +20,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.1.2",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
   }
 }

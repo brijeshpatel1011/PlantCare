@@ -8,6 +8,7 @@ import Contact from "./components/Pages/Contact"
 import UploadImage from "./components/Pages/UploadImage"
 import WeatherApp from "./components/Pages/WeatherApp";
 import Supply from "./components/Pages/Supply";
+import Subscription from "./components/Subscription";
 
 function App() {
 	const user = localStorage.getItem("token");
@@ -37,6 +38,10 @@ function App() {
 
 			{user && <Route path="/Supply" exact element={<Supply />} />}
 			<Route path="/Supply" element={<Navigate replace to="/login" /> } />
+
+			{user && <Route path="/Subscription" exact element={<Subscription />} />}
+			<Route path="/Subscription" element={<Navigate replace to="/login" /> } />
+
 		</Routes>
 	);
 }
