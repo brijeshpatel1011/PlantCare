@@ -8,8 +8,8 @@ import Contact from "./components/Pages/Contact"
 import UploadImage from "./components/Pages/UploadImage"
 import WeatherApp from "./components/Pages/WeatherApp";
 import Supply from "./components/Pages/Supply";
-import Subscription from "./components/Subscription";
-import CropRem from "./components/Pages/CropRem"
+import Subscription from "./components/Pages/SubscriptionPage";
+import CropRem from "./components/Pages/CropRem";
 
 function App() {
 	const user = localStorage.getItem("token");

@@ -2,68 +2,66 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 
 const SubscriptionComponent = ({ plan }) => {
-    useEffect(() => {
-        loadRazorpayScript();
-    }, []);
+  useEffect(() => {
+    loadRazorpayScript();
+  }, []);
 
-    const loadRazorpayScript = () => {
-        const script = document.createElement('script');
-        script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-        script.async = true;
-        document.body.appendChild(script);
-    };
+  const loadRazorpayScript = () => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.async = true;
+    document.body.appendChild(script);
+  };
 
-    const handlePayment = async () => {
-        // Create an order from backend
-        const { data } = await axios.post('/api/razorpay/create-order', { amount: plan.amount });
+  const handlePayment = async () => {
+    const { data } = await axios.post('http://localhost:8080/api/razorpay/create-order', { amount: plan.amount });
 
-        if (!data.success) {
-            alert('Error in creating Razorpay order');
-            return;
+    if (!data) {
+      alert('Unable to create order');
+      return;
+    }
+
+    const options = {
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Ensure you set this in .env for React
+      amount: data.amount,
+      currency: 'INR',
+      name: 'PlantCare Subscription',
+      description: `Subscribe to ${plan.name}`,
+      order_id: data.id,
+      handler: async function (response) {
+        const verifyUrl = '/api/razorpay/verify-payment';
+        const { data: verifyData } = await axios.post(verifyUrl, {
+          razorpay_order_id: response.razorpay_order_id,
+          razorpay_payment_id: response.razorpay_payment_id,
+          razorpay_signature: response.razorpay_signature,
+        });
+
+        if (verifyData.success) {
+          alert('Payment successful!');
+          // Redirect user or update subscription status in the database
+        } else {
+          alert('Payment failed! Invalid signature');
         }
-
-        const options = {
-            key: process.env.RAZORPAY_KEY_ID,
-            amount: data.order.amount,
-            currency: 'INR',
-            name: 'Plant Care Subscription',
-            description: `Subscribe to ${plan.name}`,
-            order_id: data.order.id,
-            handler: async function (response) {
-                // Verify payment on the backend
-                const verifyResponse = await axios.post('/api/razorpay/verify-payment', {
-                    razorpay_order_id: response.razorpay_order_id,
-                    razorpay_payment_id: response.razorpay_payment_id,
-                    razorpay_signature: response.razorpay_signature,
-                });
-
-                if (verifyResponse.data.success) {
-                    alert('Payment Successful! Subscription Activated.');
-                } else {
-                    alert('Payment verification failed');
-                }
-            },
-            prefill: {
-                name: 'Your Name',
-                email: 'your.email@example.com',
-                contact: '9999999999',
-            },
-            theme: {
-                color: '#3399cc',
-            },
-        };
-
-        const paymentObject = new window.Razorpay(options);
-        paymentObject.open();
+      },
+      prefill: {
+        name: 'Your Name',
+        email: 'your.email@example.com',
+        contact: '9999999999',
+      },
+      theme: {
+        color: '#3399cc',
+      },
     };
 
-    return (
-        <div>
-            <button onClick={handlePayment}>
-                Proceed to Pay ₹{plan.amount} for {plan.name}
-            </button>
-        </div>
-    );
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
+  };
+
+  return (
+    <button onClick={handlePayment} className="bg-green-500 text-white rounded-lg py-2 px-4 hover:bg-green-600 transition duration-300">
+      Proceed to Pay ₹{plan.amount} for {plan.name}
+    </button>
+  );
 };
 
 export default SubscriptionComponent;
