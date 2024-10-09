@@ -2,6 +2,7 @@
 // import React, { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 import { Card } from "flowbite-react";
+import { Link } from "react-router-dom";
 import backImg from "./../../assests/subscriptionBack.jpg"
 
 const Subscription = () => {
@@ -133,12 +134,12 @@ const Subscription = () => {
           <span className="text-base font-normal leading-tight text-gray-500">24×7 phone & email support</span>
         </li>
       </ul>
-      <button
+      <Link to='/Subscription'
         type="button"
         className="inline-flex w-full justify-center rounded-lg bg-cyan-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-cyan-700 focus:outline-none focus:ring-4 focus:ring-cyan-200 dark:focus:ring-cyan-900"
       >
         Choose plan
-      </button>
+      </Link>
     </Card>
 
     <Card className='max-w-sm p-4 w-25'>
