@@ -1,4 +1,3 @@
-# Import necessary libraries
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import joblib
@@ -6,7 +5,8 @@ import numpy as np
 
 # Initialize the Flask app
 app = Flask(__name__)
-CORS(app)  # Enable CORS to allow requests from the frontend
+# Allow requests from the specified origin
+CORS(app, resources={r"/predict": {"origins": "http://localhost:3000"}})
 
 # Load the trained model using joblib
 model = joblib.load("crop_recommand.pkl")

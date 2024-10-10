@@ -1,29 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import Navbar from "./../Navbar/Navbar";
 import submit from "./../../assests/submit.webp";
 import detect from "./../../assests/detect.webp";
 
 function UploadImage() {
   const [image, setImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null); // State for image preview
-  const [disease, setDisease] = useState("");
-  const [description, setDescription] = useState("");
-  const [steps, setSteps] = useState("");
-  const [supplement_name, setSuppname] = useState("");
-  const [supplement_image, setSuppimage] = useState("");
+  const [imagePreview, setImagePreview] = useState(null);
+  const [hasSubscription, setHasSubscription] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkSubscription = async () => {
+      try {
+        const token = localStorage.getItem('token');
+const { data } = await axios.get("http://localhost:8080/api/users/me", {
+  headers: {
+    'x-auth-token': token
+  }
+});
+        const currentDate = new Date();
+        
+        if (data.subscription && new Date(data.subscription.endDate) > currentDate) {
+          setHasSubscription(true);
+        } else {
+          setHasSubscription(false);
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkSubscription();
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setImage(file);
-    setImagePreview(URL.createObjectURL(file)); // Set image preview
+    setImagePreview(URL.createObjectURL(file));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!hasSubscription) {
+      navigate("/Subscription");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("image", image);
 
@@ -34,14 +62,6 @@ function UploadImage() {
         },
       });
 
-      // Set state values
-      setDisease(res.data.disease);
-      setDescription(res.data.description);
-      setSteps(res.data.possible_steps);
-      setSuppname(res.data.supplement_name);
-      setSuppimage(res.data.supplement_image);
-
-      // Navigate to the Supply page with state
       navigate("/Supply", {
         state: {
           disease: res.data.disease,
@@ -56,27 +76,23 @@ function UploadImage() {
     }
   };
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <Navbar />
-
       <div className="relative">
-        {/* Display selected image preview */}
-        <img
-          src={submit} // If imagePreview is not set, show the default image
-          alt="Plant Disease Detection"
-          className="w-[100%] h-[110vh]"
-        />
-
+        <img src={submit} alt="Plant Disease Detection" className="w-[100%] h-[110vh]" />
         <div className="absolute top-0 pt-[120px] left-0 w-full h-full flex flex-wrap justify-center items-center">
-          {/* Content related to plant disease detection */}
           <div className="w-80 h-[460px] p-2 bg-white rounded-xl shadow-lg hover:shadow-2xl m-4">
             <div className="p-2 text-left">
               <h5>
                 <b>Why is it necessary to detect disease in plant ?</b>
               </h5>
               <p className="pt-2">
-                Plant diseases affect the growth of their respective species. In
+              Plant diseases affect the growth of their respective species. In
                 addition, some research gaps are identified from which to obtain
                 greater transparency for detecting diseases in plants, even before
                 their symptoms appear clearly. Diagnosis is one of the most
@@ -104,18 +120,9 @@ function UploadImage() {
                   type="submit"
                   className="inline-flex items-center mt-4 justify-center py-2 text-base font-medium text-center text-white border border-transparent rounded-md px-7 bg-green-600 hover:bg-green-500"
                 >
-                  Upload
+                  {hasSubscription ? "Detect Disease" : "Subscribe to Detect"}
                 </button>
               </form>
-              {disease && <h2>Detected Disease: {disease}</h2>}
-              {description && <h2>Disease Description: {description}</h2>}
-              {steps && <h2>Possible Steps: {steps}</h2>}
-              {supplement_name && <h2>Supplement Name: {supplement_name}</h2>}
-              {supplement_image && (
-                <h2>
-                  Supplement Image: <img src={supplement_image} alt="Supplements" />
-                </h2>
-              )}
             </div>
           </div>
 

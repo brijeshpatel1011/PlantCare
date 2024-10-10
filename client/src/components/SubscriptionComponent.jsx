@@ -1,10 +1,14 @@
 import React, { useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from 'jwt-decode';
 
 const SubscriptionComponent = ({ plan }) => {
   useEffect(() => {
     loadRazorpayScript();
   }, []);
+
+  const navigate = useNavigate();
 
   const loadRazorpayScript = () => {
     const script = document.createElement('script');
@@ -21,24 +25,33 @@ const SubscriptionComponent = ({ plan }) => {
       return;
     }
 
+    const token = localStorage.getItem('token');
+    let userId;
+    if (token) {
+      const decoded = jwtDecode(token);
+      userId = decoded._id;
+    }
+
     const options = {
-      key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Ensure you set this in .env for React
+      key: process.env.REACT_APP_RAZORPAY_KEY_ID,
       amount: data.amount,
       currency: 'INR',
       name: 'PlantCare Subscription',
       description: `Subscribe to ${plan.name}`,
       order_id: data.id,
       handler: async function (response) {
-        const verifyUrl = '/api/razorpay/verify-payment';
+        const verifyUrl = 'http://localhost:8080/api/razorpay/verify-payment';
         const { data: verifyData } = await axios.post(verifyUrl, {
           razorpay_order_id: response.razorpay_order_id,
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_signature: response.razorpay_signature,
+          userId: userId,
+          plan: plan.name,
         });
 
         if (verifyData.success) {
           alert('Payment successful!');
-          // Redirect user or update subscription status in the database
+          navigate("/Supply");
         } else {
           alert('Payment failed! Invalid signature');
         }

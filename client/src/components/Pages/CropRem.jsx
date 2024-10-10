@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const CropRem = () => {
   // State variables to store form input values and prediction result
@@ -9,8 +11,35 @@ const CropRem = () => {
     moisture: '',
     temperature: ''
   });
-  
+  const navigate = useNavigate();
+
   const [result, setResult] = useState('');
+  const [hasSubscription, setHasSubscription] = useState(false); // New state for subscription status
+
+  // Check subscription status on component mount
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          const response = await fetch('http://localhost:8080/api/users/me', {
+            headers: {
+              'x-auth-token': token
+            }
+          });
+          const data = await response.json();
+          if (data.subscription) {
+            setHasSubscription(true); // User has an active subscription
+          }
+        } catch (error) {
+          console.error('Error checking subscription:', error);
+        }
+      }
+    };
+
+    checkSubscription();
+  }, []);
+
 
   // Handle form input change
   const handleInputChange = (e) => {
@@ -22,6 +51,10 @@ const CropRem = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!hasSubscription) {
+      navigate("/Subscription");; // Alert if no subscription
+      return;
+    }
     try {
       // Send form data to the backend
       const response = await fetch('http://localhost:5000/predict', {
